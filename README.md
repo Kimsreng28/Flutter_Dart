@@ -26,3 +26,13 @@ An example application built with dart_frog
 - Install Dependencies
 
   `dart pub get`
+
+- Create a new route
+
+  `dart_frog new route "/db/mongodb"`
+
+  `dart_frog new route "/db/mongodb/[id]"`
+
+- Create a new middleware
+
+  `dart_frog new middleware "/db/mongodb"`
