@@ -10,3 +10,19 @@ An example application built with dart_frog
 [license_link]: https://opensource.org/licenses/MIT
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
+
+# Clone this project
+
+`git clone https://github.com/Kimsreng28/Flutter_Dart`
+
+- Checkout branch
+
+  `git checkout <branch>`
+
+- Run Build Project
+
+  `dart pub global activate dart_frog`
+
+- Install Dependencies
+
+  `dart pub get`
