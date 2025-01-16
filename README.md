@@ -36,3 +36,15 @@ An example application built with dart_frog
 - Create a new middleware
 
   `dart_frog new middleware "/db/mongodb"`
+
+- Create a postgresql Docker
+
+  ```
+      docker pull postgres
+
+      docker run --name postgres-dartfrog-container -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=yourpassword -e POSTGRES_DB=yourdatabase -p 5432:5432 -d postgres
+
+      docker exec -it postgres-dartfrog-container psql -U postgres
+
+      CREATE DATABASE mytasklists;
+  ```

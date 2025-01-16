@@ -47,10 +47,12 @@ class TaskListRepository {
     final formattedLists = <String, dynamic>{};
 
     if (listDb.isNotEmpty) {
-      listDb.forEach((String id) {
-        final currentList = listDb[id];
-        formattedLists?[id] = currentList?.toJson();
-      } as void Function(String key, TaskList value));
+      listDb.forEach(
+        (String id) {
+          final currentList = listDb[id];
+          formattedLists[id] = currentList?.toJson();
+        } as void Function(String key, TaskList value),
+      );
     }
 
     return formattedLists;
