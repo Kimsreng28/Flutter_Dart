@@ -27,6 +27,20 @@ class _ViewListState extends State<ViewList> with Func {
 
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              if (editable) {
+                setState(() {
+                  editable = false;
+                });
+              } else {
+                Navigator.of(context)
+                    .pushNamed("/lists")
+                    .then((value) => {setState(() => {})});
+              }
+            },
+          ),
           title: (editable)
               ? TextField(
                   controller: nameController,
@@ -36,20 +50,20 @@ class _ViewListState extends State<ViewList> with Func {
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
           centerTitle: false,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AddItem.routeName,
-                  arguments:
-                      ItemArguments(listid: args.id, listname: args.listName),
-                );
-              },
-            ),
-            (editable)
-                ? IconButton(
+          actions: (editable)
+              ? [
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      updateList(args.id, nameController.text.toString());
+                      setState(() {
+                        editable = false;
+                      });
+                      Navigator.pushNamed(context, "/lists")
+                          .then((value) => setState(() {}));
+                    },
+                  ),
+                  IconButton(
                     icon: const Icon(Icons.save),
                     onPressed: () {
                       updateList(args.id, nameController.text.toString());
@@ -59,8 +73,21 @@ class _ViewListState extends State<ViewList> with Func {
                       Navigator.pushNamed(context, "/lists")
                           .then((value) => setState(() {}));
                     },
-                  )
-                : IconButton(
+                  ),
+                ]
+              : [
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        AddItem.routeName,
+                        arguments: ItemArguments(
+                            listid: args.id, listname: args.listName),
+                      );
+                    },
+                  ),
+                  IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
                       setState(() {
@@ -68,7 +95,7 @@ class _ViewListState extends State<ViewList> with Func {
                       });
                     },
                   ),
-          ],
+                ],
         ),
         body: FutureBuilder<Map<String, dynamic>>(
           future: getItemsByList(args.id, context),
