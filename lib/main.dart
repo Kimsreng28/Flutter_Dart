@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tasklis_app/add_item.dart';
 import 'package:tasklis_app/landing.dart';
 import 'package:tasklis_app/lists.dart';
 import 'package:tasklis_app/signin.dart';
 import 'package:tasklis_app/signup.dart';
+import 'package:tasklis_app/viewlist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
         "/signin": (context) => const SignIn(),
         "/signup": (context) => const SignUp(),
         "/lists": (context) => const Lists(),
+        ViewList.routeName: (context) => const ViewList(),
+        AddItem.routeName: (context) => const AddItem(),
       },
       debugShowCheckedModeBanner: false,
     );

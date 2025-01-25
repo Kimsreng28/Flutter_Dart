@@ -93,7 +93,8 @@ mixin Func {
     });
   }
 
-  getItemsByList(String listid, BuildContext context) async {
+  Future<Map<String, dynamic>> getItemsByList(
+      String listid, BuildContext context) async {
     Map<String, dynamic> items = {};
     await sendRequest(endpoint: itemsByList + listid, method: Method.GET)
         .then((itms) {
