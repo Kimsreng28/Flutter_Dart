@@ -27,19 +27,47 @@ class _ViewListState extends State<ViewList> with Func {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(args.listName,
-              style:
-                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          title: (editable)
+              ? TextField(
+                  controller: nameController,
+                  cursorColor: Colors.white,
+                )
+              : Text(args.listName,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold)),
           centerTitle: false,
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
-                Navigator.pushNamed(context, AddItem.routeName,
-                    arguments: ItemArguments(
-                        listid: args.id, listname: args.listName));
+                Navigator.pushNamed(
+                  context,
+                  AddItem.routeName,
+                  arguments:
+                      ItemArguments(listid: args.id, listname: args.listName),
+                );
               },
             ),
+            (editable)
+                ? IconButton(
+                    icon: const Icon(Icons.save),
+                    onPressed: () {
+                      updateList(args.id, nameController.text.toString());
+                      setState(() {
+                        editable = false;
+                      });
+                      Navigator.pushNamed(context, "/lists")
+                          .then((value) => setState(() {}));
+                    },
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      setState(() {
+                        editable = true;
+                      });
+                    },
+                  ),
           ],
         ),
         body: FutureBuilder<Map<String, dynamic>>(
@@ -66,18 +94,20 @@ class _ViewListState extends State<ViewList> with Func {
                 );
               } else {
                 return ListView.builder(
-                    itemCount: 4,
+                    itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
+                      var entryList = snapshot.data!.entries.toList();
                       return Card(
                         child: ListTile(
                             leading:
                                 Checkbox(value: false, onChanged: (value) {}),
                             title: Text(
-                              'Item $index',
+                              entryList[index].value['name'],
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            subtitle: Text('Description $index',
+                            subtitle: Text(
+                                entryList[index].value['description'],
                                 style: const TextStyle(fontSize: 13)),
                             trailing: IconButton(
                               icon: const Icon(Icons.edit),

@@ -59,7 +59,7 @@ mixin Func {
     await sendRequest(endpoint: singleList, method: Method.GET);
   }
 
-  updateList(String id, String name, BuildContext context) async {
+  updateList(String id, String name) async {
     await sendRequest(
         endpoint: singleList + id,
         method: Method.PATCH,
