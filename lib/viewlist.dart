@@ -149,25 +149,51 @@ class _ViewListState extends State<ViewList> with Func {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       var entryList = snapshot.data!.entries.toList();
+                      itemnameControllers.putIfAbsent(
+                          index, () => TextEditingController());
+                      itemdescriptionControllers.putIfAbsent(
+                          index, () => TextEditingController());
+                      update.putIfAbsent(index, () => false);
+
                       return Card(
                         child: ListTile(
                             leading:
                                 Checkbox(value: false, onChanged: (value) {}),
-                            title: Text(
-                              entryList[index].value['name'],
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                                entryList[index].value['description'],
-                                style: const TextStyle(fontSize: 13)),
-                            trailing: IconButton(
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Colors.blue,
-                              ),
-                              onPressed: () {},
-                            )),
+                            title: (update[index]!)
+                                ? TextField(
+                                    controller: itemnameControllers[index],
+                                  )
+                                : Text(
+                                    entryList[index].value['name'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                            subtitle: (update[index]!)
+                                ? TextField(
+                                    controller:
+                                        itemdescriptionControllers[index],
+                                  )
+                                : Text(entryList[index].value['description'],
+                                    style: const TextStyle(fontSize: 13)),
+                            trailing: (update[index]!)
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.save,
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () {},
+                                  )
+                                : IconButton(
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        update[index] = true;
+                                      });
+                                    },
+                                  )),
                       );
                     });
               }
