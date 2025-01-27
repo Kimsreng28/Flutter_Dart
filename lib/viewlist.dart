@@ -67,7 +67,14 @@ class _ViewListState extends State<ViewList> with Func {
                                   "Do you want to delete this list?"),
                               actions: [
                                 ElevatedButton(
-                                    onPressed: () {}, child: const Text("Yes")),
+                                    onPressed: () {
+                                      deleteList(args.id);
+                                      Navigator.of(context)
+                                          .pushNamed("/lists")
+                                          .then(
+                                              (value) => {setState(() => {})});
+                                    },
+                                    child: const Text("Yes")),
                                 OutlinedButton(
                                     onPressed: () {
                                       setState(() {
@@ -133,7 +140,7 @@ class _ViewListState extends State<ViewList> with Func {
                           fontWeight: FontWeight.w500,
                           color: Colors.blue),
                       subtitleTextStyle:
-                          const TextStyle(fontSize: 14, color: Colors.green),
+                          const TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ),
                 );
@@ -155,7 +162,10 @@ class _ViewListState extends State<ViewList> with Func {
                                 entryList[index].value['description'],
                                 style: const TextStyle(fontSize: 13)),
                             trailing: IconButton(
-                              icon: const Icon(Icons.edit),
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
                               onPressed: () {},
                             )),
                       );
