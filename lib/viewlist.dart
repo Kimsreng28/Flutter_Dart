@@ -100,30 +100,34 @@ class _ViewListState extends State<ViewList> with Func {
                     },
                   ),
                 ]
-              : [
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        AddItem.routeName,
-                        arguments: ItemArguments(
-                            listid: args.id, listname: args.listName),
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      setState(() {
-                        editable = true;
-                      });
-                    },
-                  ),
-                ],
+              : (args.all == true)
+                  ? null
+                  : [
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AddItem.routeName,
+                            arguments: ItemArguments(
+                                listid: args.id, listname: args.listName),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          setState(() {
+                            editable = true;
+                          });
+                        },
+                      ),
+                    ],
         ),
         body: FutureBuilder<Map<String, dynamic>>(
-          future: getItemsByList(args.id, context),
+          future: (args.all == true)
+              ? getItems(context)
+              : getItemsByList(args.id, context),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {
