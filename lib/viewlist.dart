@@ -55,12 +55,30 @@ class _ViewListState extends State<ViewList> with Func {
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () {
-                      updateList(args.id, nameController.text.toString());
-                      setState(() {
-                        editable = false;
-                      });
-                      Navigator.pushNamed(context, "/lists")
-                          .then((value) => setState(() {}));
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              icon: const CircleAvatar(
+                                radius: 30,
+                                child: Icon(Icons.delete, size: 30),
+                              ),
+                              content: const Text(
+                                  "Do you want to delete this list?"),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {}, child: const Text("Yes")),
+                                OutlinedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        editable = false;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("No")),
+                              ],
+                            );
+                          });
                     },
                   ),
                   IconButton(
