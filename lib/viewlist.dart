@@ -155,45 +155,98 @@ class _ViewListState extends State<ViewList> with Func {
                           index, () => TextEditingController());
                       update.putIfAbsent(index, () => false);
 
-                      return Card(
-                        child: ListTile(
-                            leading:
-                                Checkbox(value: false, onChanged: (value) {}),
-                            title: (update[index]!)
-                                ? TextField(
-                                    controller: itemnameControllers[index],
-                                  )
-                                : Text(
-                                    entryList[index].value['name'],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                            subtitle: (update[index]!)
-                                ? TextField(
-                                    controller:
-                                        itemdescriptionControllers[index],
-                                  )
-                                : Text(entryList[index].value['description'],
-                                    style: const TextStyle(fontSize: 13)),
-                            trailing: (update[index]!)
-                                ? IconButton(
-                                    icon: const Icon(
-                                      Icons.save,
-                                      color: Colors.blue,
+                      return Dismissible(
+                        key: UniqueKey(),
+                        onDismissed: (direction) {
+                          deleteItem(entryList[index].value['id']);
+                          setState(() {});
+                        },
+                        background: Container(
+                          color: Colors.red,
+                        ),
+                        secondaryBackground: Container(
+                          color: Colors.red,
+                          child: const Padding(
+                            padding: EdgeInsets.all(15.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(Icons.delete, color: Colors.white),
+                                SizedBox(width: 8),
+                                Text(
+                                  'Delete Item',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        child: Card(
+                          child: ListTile(
+                              leading: Checkbox(
+                                  value: entryList[index].value['status'],
+                                  onChanged: (value) {
+                                    updateItem(
+                                        entryList[index].value['id'],
+                                        args.id,
+                                        entryList[index].value['name'],
+                                        entryList[index].value['description'],
+                                        value!);
+                                    setState(() {});
+                                  }),
+                              title: (update[index]!)
+                                  ? TextField(
+                                      controller: itemnameControllers[index],
+                                    )
+                                  : Text(
+                                      entryList[index].value['name'],
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    onPressed: () {},
-                                  )
-                                : IconButton(
-                                    icon: const Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        update[index] = true;
-                                      });
-                                    },
-                                  )),
+                              subtitle: (update[index]!)
+                                  ? TextField(
+                                      controller:
+                                          itemdescriptionControllers[index],
+                                    )
+                                  : Text(entryList[index].value['description'],
+                                      style: const TextStyle(fontSize: 13)),
+                              trailing: (update[index]!)
+                                  ? IconButton(
+                                      icon: const Icon(
+                                        Icons.save,
+                                        color: Colors.blue,
+                                      ),
+                                      onPressed: () {
+                                        updateItem(
+                                            entryList[index].value['id'],
+                                            args.id,
+                                            itemnameControllers[index]!.text,
+                                            itemdescriptionControllers[index]!
+                                                .text,
+                                            completed[index] ?? false);
+                                        setState(() {
+                                          update[index] = false;
+                                        });
+                                      },
+                                    )
+                                  : IconButton(
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.blue,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          update[index] = true;
+                                          itemnameControllers[index]!.text =
+                                              entryList[index].value["name"];
+                                          itemdescriptionControllers[index]!
+                                                  .text =
+                                              entryList[index]
+                                                  .value["description"];
+                                        });
+                                      },
+                                    )),
+                        ),
                       );
                     });
               }
