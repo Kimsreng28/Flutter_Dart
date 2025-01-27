@@ -37,6 +37,7 @@ dependencies:
   dio: ^5.7.0
   status_alert: ^1.0.1
   empty_widget: ^0.0.5
+  web_socket_channel: ^3.0.2
 
 dev_dependencies:
   flutter_test:
