@@ -43,9 +43,9 @@ class _ChatRoomState extends State<ChatRoom> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [],
+                  children: messages,
                 ),
                 Row(
                   children: [
@@ -60,7 +60,11 @@ class _ChatRoomState extends State<ChatRoom> {
                     const Spacer(),
                     IconButton(
                         onPressed: () {
-                          getMessage(messagecontroller.text, Colors.black54);
+                          setState(() {
+                            getMessage(messagecontroller.text, Colors.black54);
+                          });
+                          channel.sink.add(messagecontroller.text);
+                          messagecontroller.clear();
                         },
                         icon: const Icon(
                           Icons.send,

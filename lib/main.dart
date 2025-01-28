@@ -5,6 +5,7 @@ import 'package:tasklis_app/file.dart';
 import 'package:tasklis_app/landing.dart';
 import 'package:tasklis_app/lists.dart';
 import 'package:tasklis_app/recipe.dart';
+import 'package:tasklis_app/settings.dart';
 import 'package:tasklis_app/signin.dart';
 import 'package:tasklis_app/signup.dart';
 import 'package:tasklis_app/viewlist.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         "/recipe": (context) => const Recipe(),
         "/file": (context) => const FileUpload(),
         "/chat": (context) => const ChatRoom(),
+        "/settings": (context) => const Settings(),
       },
       debugShowCheckedModeBanner: false,
     );

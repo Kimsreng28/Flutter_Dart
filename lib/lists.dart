@@ -25,7 +25,9 @@ class _ListsState extends State<Lists> with Func {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, "/settings");
+            },
           ),
           IconButton(
             icon: const Icon(Icons.more_horiz),
