@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tasklis_app/constant.dart';
 import 'package:tasklis_app/httpService.dart';
+import 'package:tasklis_app/main.dart';
 
 mixin Func {
   HttpService httpService = HttpService();
@@ -253,8 +254,8 @@ mixin Func {
     });
   }
 
-  getUserUsingBasic(
-      String username, String password, BuildContext context) async {
+  getUserUsingBasic(String username, String password, BuildContext context,
+      bool rememberMe) async {
     await sendRequest(
             endpoint: basicAuth,
             method: Method.GET,
@@ -264,7 +265,9 @@ mixin Func {
         .then((value) {
       if (context.mounted) {
         if (value.statusCode == 200) {
+          customProvider.setUser(value.data as Map<String, dynamic>);
           Navigator.pushNamed(context, "/lists");
+          setLoginStatus(rememberMe ? 1 : 0);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Failed to authenticate user")));

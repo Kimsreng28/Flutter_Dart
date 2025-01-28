@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tasklis_app/add_item.dart';
+import 'package:tasklis_app/change_password.dart';
 import 'package:tasklis_app/chat_room.dart';
+import 'package:tasklis_app/custom_provider.dart';
 import 'package:tasklis_app/file.dart';
 import 'package:tasklis_app/landing.dart';
 import 'package:tasklis_app/lists.dart';
@@ -10,8 +13,12 @@ import 'package:tasklis_app/signin.dart';
 import 'package:tasklis_app/signup.dart';
 import 'package:tasklis_app/viewlist.dart';
 
+CustomProvider customProvider = CustomProvider();
+
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => CustomProvider())],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,6 +44,7 @@ class MyApp extends StatelessWidget {
         "/file": (context) => const FileUpload(),
         "/chat": (context) => const ChatRoom(),
         "/settings": (context) => const Settings(),
+        "/changepass": (context) => const ChangePassword(),
       },
       debugShowCheckedModeBanner: false,
     );
